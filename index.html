@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>'Homepage'</title>
+        <link rel="stylesheet" type="text/css" href="indexStyles.css">
+    </head>
+    <body>
+    <!--CONTAINER BEGINS HERE-->
+        <div id="--CONTAINER">
+        <!--HEADER SECTION BEGINS HERE-->
+        <div id="--HEADER">
+        <h1>Homepage</h1>
+        <h2>Intro</h2>
+        </div><!--HEADER SECTION ENDS HERE-->
+    <img src="Images/IMG_2680.jpeg" alt="Chicken Photo" id="chicken">
+
+    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt</p>
+    <label>Likes</label>
+    <ul>
+        <li>text</li>
+        <li>text</li>
+        <li>text</li>
+        <li>text</li>
+        <li>text</li>
+    </ul>
+    <label>Dislikes</label>
+    <ul>
+        <li>text</li>
+        <li>text</li>
+        <li>text</li>
+        <li>text</li>
+        <li>text</li>
+    </ul>
+    <img src="images/0A885D35-90AC-4F4F-A353-38FDCF9B0297.jpeg" alt="Dessert" id="dessert">
+<!--BUTTONS CONFIG HERE-->
+<div class="option-group">
+    <input type="radio" id="opt1" name="choice" value="Experience">
+    <label for="opt1" class="option-label">
+        <svg width="80" height="30" viewBox="0 0 80 30" xmlns="http://www.w3.org/2000/svg">
+  <path
+    id="experienceCurve"
+    d="M5,5 Q40,41 75,5"
+    transform="translate(0,31)"
+    fill="none"
+    stroke="none" />
+
+  <text font-size="8" font-family="Arial" font-weight="bold">
+    <textPath
+      href="#experienceCurve"
+      startOffset="50%"
+      text-anchor="middle">
+      Homepage
+    </textPath>
+  </text>
+</svg>
+</label>
+
+    <input type="radio" id="opt2" name="choice" value="Hobbies">
+    <label for="opt2" class="option-label">
+        <svg width="80" height="30" viewBox="0 0 80 30" xmlns="http://www.w3.org/2000/svg">
+  <path
+    id="hobbiesCurve"
+    d="M5,5 Q40,40 75,5"
+    transform="translate(0,31)"
+    fill="none"
+    stroke="none" />
+
+  <text font-size="8" font-family="Arial" font-weight="bold">
+    <textPath
+      href="#hobbiesCurve"
+      startOffset="50%"
+      text-anchor="middle">
+      Hobbies
+    </textPath>
+  </text>
+</svg>
+</label>
+
+    <input type="radio" id="opt3" name="choice" value="PhotoGallery">
+    <label for="opt3" class="option-label">
+        <svg width="80" height="30" viewBox="0 0 80 30" xmlns="http://www.w3.org/2000/svg">
+  <path
+    id="photoGalleryCurve"
+    d="M5,5 Q40,45 75,5"
+    transform="translate(0,29)"
+    fill="none"
+    stroke="none"/>
+
+  <text font-size="1" font-family="Arial" font-weight="bold">
+    <textPath
+      href="#photoGalleryCurve"
+      startOffset="50%"
+      text-anchor="middle">
+      PhotoGallery
+    </textPath>
+  </text>
+</svg>
+</svg>
+    </label>
+
+  </div>
+    <script>
+        const glitchTargets = Array.from(
+            document.querySelectorAll("#--CONTAINER h1, #--CONTAINER h2, #--CONTAINER p, #--CONTAINER li, #--CONTAINER img")
+        );
+        let transitionStarted = false;
+
+        function scheduleGlitch() {
+            window.setTimeout(() => {
+                if (transitionStarted) {
+                    return;
+                }
+
+                document.body.classList.add("glitch-active");
+                const glitchEnd = Date.now() + 500;
+
+                function glitchTarget() {
+                    if (transitionStarted || Date.now() >= glitchEnd) {
+                        return;
+                    }
+
+                    const target = glitchTargets[Math.floor(Math.random() * glitchTargets.length)];
+                    target.classList.add("glitch-vanish");
+                    window.setTimeout(() => target.classList.remove("glitch-vanish"), 120);
+                    window.setTimeout(glitchTarget, 180 + Math.random() * 300);
+                }
+
+                glitchTarget();
+                window.setTimeout(() => {
+                    document.body.classList.remove("glitch-active");
+                    glitchTargets.forEach(target => target.classList.remove("glitch-vanish"));
+                    scheduleGlitch();
+                }, 500);
+            }, 1000 + Math.random() * 9000);
+        }
+
+        scheduleGlitch();
+
+        document.addEventListener("click", event => {
+            if (transitionStarted) {
+                return;
+            }
+
+            event.preventDefault();
+            event.stopImmediatePropagation();
+            transitionStarted = true;
+            document.body.classList.remove("glitch-active");
+            glitchTargets.forEach(target => target.classList.remove("glitch-vanish"));
+            document.body.classList.add("is-leaving");
+
+            window.setTimeout(() => {
+                document.body.classList.add("is-frozen");
+            }, 450);
+            window.setTimeout(() => {
+                document.body.classList.add("is-black");
+                window.setTimeout(() => {
+                    window.location.href = "mainPage.html";
+                }, 300);
+            }, 1800);
+        }, true);
+    </script>
+
+</body>
+</html>

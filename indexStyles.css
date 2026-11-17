@@ -1,0 +1,189 @@
+/* styles.css */
+header {
+  color:aliceblue;
+}
+/*makes background*/
+body{
+    background-color: rgba(177, 168, 253, 0.804);
+    background-image: url("images/IMG_2749.jpeg");
+    background-repeat: no-repeat;
+    background-size:cover;
+    background-attachment: fixed;
+}
+#container{
+    width:auto
+}
+/*TEXT TAG STYLES*/
+h1{
+    font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
+    font-weight: bold;
+    color:#f2f3ab;
+}
+h2{
+    font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
+    color: rgba(190, 83, 126, 0.703);
+    position:relative;
+    top:50px;
+}
+label{
+    font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
+    color: rgba(190, 83, 126, 0.703);
+    position:relative;
+    top:10px;
+}
+p{
+    font-size: medium;
+    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+    color:rgb(151, 176, 236);
+    margin-top: -120px;
+    margin-bottom: 100px;
+    margin-right: 12px;
+    width: 600px;
+    height: 40px;
+    position:relative;
+
+}
+ul{
+color:white;
+font-weight: bold;
+size: 20px;
+}
+#chicken{
+    width: 160px;
+    height: 150px;
+    position:relative;
+    bottom: 120px;
+    left: 190px;
+    
+}
+#dessert{
+    width: 140px;
+    height: 140px;
+    position:relative;
+    bottom: 300px;
+    left: 140px;
+    clip-path: polygon(50% 0, 100% 50%, 50% 100%, 0 50%);
+}
+
+/*MENU SECTION*/
+
+/*FOOTER SECTION*/
+
+/*LINK STYLES*/
+
+/*CLASS STYLES*/
+.rightfloat{
+    margin: 30px;
+    float: right;
+}
+.leftfloat{
+    margin:8px;
+    float: left;
+}
+
+.option-group {
+display:flex;
+gap: 12px;
+}
+
+/* Hide the actual radio button */
+.option-group input[type="radio"] {
+position: relative;
+opacity: 0;
+pointer-events: none;
+}
+
+/* Style the label as a white circle*/
+.option-label {
+width: 100px;
+height: 100px;
+border-radius: 50%;
+background: white;
+border: 2px solid #f5bbd2;
+cursor: pointer;
+display: inline-block;
+box-shadow: #f5bbd2;
+transition: border-color 0.2s, box-shadow 0.2s;
+position:relative;
+right: -45%;
+top: -700px;
+color:#f5bbd2;
+}
+
+/* Hover effect */
+.option-label:hover {
+width: 110px;
+height: 110px;
+opacity: 90%;
+transition: opacity 1s, width 0.5s, height 0.5s;
+}
+
+svg {
+inset: 0;
+width: 100%;
+height: 100%;
+bottom:-500px;
+position: relative;
+
+}
+
+.option-label text {
+font-size: 14px;
+fill: currentColor;
+}
+
+.center-text {
+position: relative;
+inset: 0;
+display: grid;
+place-items: center;
+font-size: 24px;
+}
+body.glitch-active {
+    animation: screen-glitch 100ms steps(2, end) infinite;
+}
+
+body.glitch-active #--CONTAINER h1,
+body.glitch-active #--CONTAINER h2,
+body.glitch-active #--CONTAINER p,
+body.glitch-active #--CONTAINER label,
+body.glitch-active #--CONTAINER li {
+    text-shadow: -2px 0 #f00, 2px 0 #00f;
+}
+
+#--CONTAINER .glitch-vanish {
+    visibility: hidden;
+}
+
+body.is-leaving #--CONTAINER {
+    animation: exit-flicker 90ms steps(2, end) 5;
+}
+
+body.is-frozen #--CONTAINER {
+    animation: none;
+    filter: grayscale(1);
+}
+
+body.is-black {
+    background: #000;
+}
+
+body.is-black::after {
+    content: "";
+    position: fixed;
+    inset: 0;
+    z-index: 999999;
+    background: #000;
+}
+
+@keyframes screen-glitch {
+    0%, 100% { transform: translate(0); filter: none; }
+    25% { transform: translate(-4px, 2px); filter: contrast(1.7); }
+    50% { transform: translate(3px, -2px); filter: brightness(1.4); }
+    75% { transform: translate(-2px, -1px); filter: contrast(1.5); }
+}
+
+@keyframes exit-flicker {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.2; }
+}

@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>#0379's File</title>
+    <link rel="stylesheet" type="text/css" href="knownConfederatesStyles.css">
+    <link rel="stylesheet" type="text/css" href="infoStyles.css">
+</head>
+<body>
+    <a class="home-link" href="mainPage.html">&lt;- Home</a>
+    <main class="case-layout">
+        <div class="file-spread">
+            <article class="case-file hobbies-cover" aria-label="Hobbies file cover">
+                <div class="file-tabs" role="tablist" aria-label="Hobbies file sections">
+                    <button class="file-tab" id="overview-tab" type="button" role="tab"
+                        aria-selected="true" aria-controls="overview-page" tabindex="0">
+                        Overview
+                    </button>
+                    <button class="file-tab" id="profile-tab" type="button" role="tab"
+                        aria-selected="false" aria-controls="profile-page" tabindex="-1">
+                        Profile
+                    </button>
+                    <button class="file-tab" id="others-tab" type="button" role="tab"
+                        aria-selected="false" aria-controls="others-page" tabindex="-1">
+                        Others
+                    </button>
+                </div>
+
+                <section class="file-cover">
+                    <header class="file-header">
+                        <p class="file-kicker">POLICE RECORDS - PERSONAL FILE</p>
+                        <h1>#0379's File</h1>
+                    </header>
+
+                    <div class="cover-content">
+                        <section class="record-details" aria-label="File details">
+                            <div class="detail-line"><span>File number</span><span>I-01</span></div>
+                            <div class="detail-line"><span>Classification</span><span>Personal</span></div>
+                            <div class="detail-line"><span>Status</span><span>Active</span></div>
+                        </section>
+
+                        <div class="photo-frame cover-photo-frame">
+                            <img src="images/IMG_1785.jpeg" alt="Glass of lemon tea">
+                        </div>
+                    </div>
+                </section>
+            </article>
+
+            <section class="detail-pages has-open-page" aria-label="Inside the hobbies file">
+                <article class="detail-page hobbies-page overview-page" id="overview-page" role="tabpanel"
+                    aria-labelledby="overview-tab">
+                    <header class="detail-page-header">
+                        <div>
+                            <h2>Overview</h2>
+                            <p class="page-kicker">OVERVIEW - FILE PAGE 01</p>
+                        </div>
+                    </header>
+                    <div class="overview-textbox">
+                        <p>I know you're supposed to put information about yourself here, but I don't really know what to put so majority of it is Lorem Ipsum text.</p>
+
+                        <p>Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia curae. Sed euismod, lectus non facilisis posuere, justo sapien consequat lectus, a interdum felis neque a nibh.</p>
+                        <p>Praesent vitae magna vel erat feugiat aliquet. Curabitur non dolor sed augue interdum finibus. Donec at justo ac erat dictum blandit, sed posuere urna posuere.</p>
+                        <p>Aliquam erat volutpat. Suspendisse potenti. Aenean sit amet neque vitae magna cursus tincidunt. Morbi luctus, erat sed faucibus feugiat, arcu libero consequat ante, sed tristique risus sem vitae nulla.</p>
+                        <p>Fusce interdum, lorem quis volutpat feugiat, turpis nisl pulvinar sem, vel posuere dui est vitae justo. Nam sed tortor vitae urna laoreet mattis.</p>
+                        <p>Donec vitae sem euismod, posuere justo eget, feugiat nibh. Nulla facilisi.</p>
+                    </div>
+                </article>
+
+                <article class="detail-page hobbies-page" id="profile-page" role="tabpanel"
+                    aria-labelledby="profile-tab" hidden>
+                    <header class="detail-page-header">
+                        <div>
+                            <h2>Profile</h2>
+                            <p class="page-kicker">PROFILE - FILE PAGE 02</p>
+                        </div>
+                    </header>
+                    <div class="hobbies-content">
+                        <section class="hobby-section" aria-labelledby="likes-heading">
+                            <h3 id="likes-heading">Likes</h3>
+                            <ul>
+                                <li>Jazz</li>
+                                <li>Anime</li>
+                                <li>Books</li>
+                                <li>Video Games</li>
+                                <li>Cacti</li>
+                            </ul>
+                        </section>
+
+                        <section class="hobby-section" aria-labelledby="dislikes-heading">
+                            <h3 id="dislikes-heading">Dislikes</h3>
+                            <ul>
+                                <li>Bugs</li>
+                                <li>Heights</li>
+                                <li>Brother</li>
+                                <li>Ginger</li>
+                                <li>Getting woken up</li>
+                            </ul>
+                        </section>
+                    </div>
+                </article>
+
+                <article class="detail-page hobbies-page" id="others-page" role="tabpanel"
+                    aria-labelledby="others-tab" hidden>
+                    <header class="detail-page-header">
+                        <div>
+                            <h2>Others</h2>
+                            <p class="page-kicker">OTHER NOTES - FILE PAGE 03</p>
+                        </div>
+                    </header>
+                    <p class="other-record">-Subject seems to be sensitive to strong smells, and will die of coughing if there are any in the vicinity</p>
+                    <p class="other-record">-Subject is also prone to making things difficult for herself</p>
+                    <p class="other-record">-After observations, poisons seem to be a part of her interests</p>
+                    <p class="other-note">End of report.</p>
+                </article>
+            </section>
+        </div>
+    </main>
+
+    <script>
+        const tabs = Array.from(document.querySelectorAll('[role="tab"]'));
+        const pages = tabs.map(tab => document.getElementById(tab.getAttribute("aria-controls")));
+
+        function activateTab(tab) {
+            tabs.forEach(item => {
+                const isSelected = item === tab;
+                item.setAttribute("aria-selected", String(isSelected));
+                item.tabIndex = isSelected ? 0 : -1;
+            });
+
+            pages.forEach(page => {
+                page.hidden = page.id !== tab.getAttribute("aria-controls");
+            });
+        }
+
+        tabs.forEach((tab, index) => {
+            tab.addEventListener("click", () => activateTab(tab));
+            tab.addEventListener("keydown", event => {
+                let nextIndex;
+                if (event.key === "ArrowRight") {
+                    nextIndex = (index + 1) % tabs.length;
+                } else if (event.key === "ArrowLeft") {
+                    nextIndex = (index - 1 + tabs.length) % tabs.length;
+                } else if (event.key === "Home") {
+                    nextIndex = 0;
+                } else if (event.key === "End") {
+                    nextIndex = tabs.length - 1;
+                } else {
+                    return;
+                }
+
+                event.preventDefault();
+                tabs[nextIndex].focus();
+                activateTab(tabs[nextIndex]);
+            });
+        });
+    </script>
+</body>
+</html>

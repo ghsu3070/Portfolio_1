@@ -1,0 +1,284 @@
+html {
+    font-size:clamp(14px, 1.6vw, 18px);
+}
+
+* {
+    box-sizing:border-box;
+}
+
+html {
+    height:100%;
+    padding:0.625rem;
+    overflow:hidden;
+}
+
+html::before {
+    position:fixed;
+    inset:0;
+    z-index:10;
+    border:0.625rem solid #8c0f0f;
+    content:"";
+    pointer-events:none;
+}
+
+body {
+    height:100%;
+    min-height:0;
+    margin:0;
+    overflow:hidden;
+    background-color:rgb(247, 181, 137);
+    animation:page-reveal 1800ms ease-out both;
+}
+
+@keyframes page-reveal {
+    from { opacity:0; }
+    to { opacity:1; }
+}
+
+#container {
+    position:relative;
+    width:auto;
+    height:100%;
+    min-height:0;
+}
+
+#container::after {
+    position:absolute;
+    right:0;
+    bottom:-1.875rem;
+    left:0;
+    height:1.875rem;
+    content:"";
+    pointer-events:none;
+}
+
+h1 {
+    position:fixed;
+    top:0;
+    left:50%;
+    z-index:3;
+    margin:0.67em 0;
+    transform:translateX(-50%);
+    color:#ca1c1c;
+    font-family:Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
+    font-size:3rem;
+}
+
+#chicken {
+    position:absolute;
+    top:calc(20% - 2.1875rem);
+    left:calc(60% + 5.46875rem);
+    z-index:2;
+    width:4.375rem;
+    height:4.375rem;
+    border-radius:50%;
+    object-fit:cover;
+}
+
+
+#map {
+    position:relative;
+    right:10%;
+    bottom:25rem;
+    width:10rem;
+    height:8.4375rem;
+}
+
+.radio-option {
+    position:absolute;
+    z-index:1;
+    width:7.5rem;
+    height:7.5rem;
+    transform:translate(-50%, -50%);
+    cursor:pointer;
+}
+
+.food-radio { top:60%; left:73%; }
+.hobbies-radio { top:13%; left:min(85%, calc(100% - 9.375rem)); }
+.photo-radio { top:54%; left:16%; }
+.info-radio { top:20%; left:50%; }
+.location-radio { top:12%; left:20%; }
+
+.sticky-note {
+    position:absolute;
+    top:50%;
+    left:50%;
+    z-index:0;
+    box-sizing:border-box;
+    width:17.1875rem;
+    min-height:13.59375rem;
+    padding:2.1875rem 1.09375rem 1.09375rem;
+    transform:translateX(-50%) rotate(-1deg);
+    background-color:#fff2a1;
+    background-image:repeating-linear-gradient(
+        to bottom,
+        transparent 0,
+        transparent 1.9375rem,
+        #d8ca75 2.03125rem
+    );
+    box-shadow:0.125rem 0.25rem 0.5rem rgba(80, 55, 10, 0.25);
+    color:#3e3420;
+    font-family:'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', sans-serif;
+    font-size:0.9375rem;
+    line-height:2.03125rem;
+    transition:box-shadow 0.2s ease;
+}
+
+.sticky-note-heading {
+    font-weight:700;
+}
+
+.food-radio .sticky-note { transform:translateX(-50%) rotate(2deg); }
+.hobbies-radio .sticky-note { transform:translateX(-50%) rotate(-2.2deg); }
+.photo-radio .sticky-note { transform:translateX(-50%) rotate(1.3deg); }
+.info-radio .sticky-note { transform:translateX(-50%) rotate(-1deg); }
+.location-radio .sticky-note { transform:translateX(-50%) rotate(2.5deg); }
+
+.radio-option input[type="radio"] {
+    position:absolute;
+    width:0.0625rem;
+    height:0.0625rem;
+    opacity:0;
+    pointer-events:none;
+}
+
+.radio-option .food-label,
+.radio-option .hobbies-label,
+.radio-option .photo-label,
+.radio-option .info-label,
+.radio-option .location-label {
+    position:absolute;
+    top:50%;
+    left:50%;
+    z-index:2;
+    display:block;
+    box-sizing:border-box;
+    width:2.953125rem;
+    height:2.953125rem;
+    transform:translate(-50%, -50%);
+    border:0.125rem solid #8c0f0f;
+    border-radius:50%;
+    background:#fff;
+    color:#8c0f0f;
+    cursor:pointer;
+    opacity:1;
+    scale:1;
+    transition:border-color 0.2s, box-shadow 0.2s;
+}
+
+.radio-option:is(:hover, :focus-within, :has(input:checked)) .sticky-note {
+    box-shadow:
+        0 0 0.3125rem #ca0a0a,
+        0 0 0.625rem #ca0a0a,
+        0 0 1.25rem #ca0a0a,
+        0.125rem 0.25rem 0.5rem rgba(80, 55, 10, 0.25);
+}
+
+.radio-option:is(:hover, :focus-within, :has(input:checked)) label {
+    border-color:#ca0a0a;
+    box-shadow:
+        0 0 0.3125rem #ca0a0a,
+        0 0 0.625rem #ca0a0a,
+        0 0 1.25rem #ca0a0a;
+}
+
+.note-connections {
+    position:fixed;
+    inset:0;
+    z-index:0;
+    width:100vw;
+    height:100vh;
+    overflow:visible;
+    pointer-events:none;
+}
+
+.note-connections path {
+    fill:none;
+    stroke:#8c0f0f;
+    stroke-width:0.1875rem;
+    stroke-linecap:round;
+}
+
+body.page-transitioning {
+    overflow:hidden;
+}
+
+.radio-option.is-expanding {
+    z-index:10000;
+    transform:none;
+}
+
+.radio-option.is-expanding label {
+    position:fixed;
+    top:var(--expand-origin-y);
+    left:var(--expand-origin-x);
+    z-index:10000;
+    width:2.953125rem;
+    height:2.953125rem;
+    transform:translate(-50%, -50%);
+    overflow:hidden;
+    border-color:#ca0a0a;
+    background-color:#fff;
+    background-image:var(--transition-image, none);
+    background-attachment:fixed;
+    background-position:center;
+    background-repeat:no-repeat;
+    background-size:cover;
+    color:white;
+    transition:width 1400ms ease-in-out, height 1400ms ease-in-out;
+}
+
+.radio-option.is-expanded label {
+    width:var(--cover-size);
+    height:var(--cover-size);
+}
+
+@media (max-width:650px), (max-height:400px) {
+    html {
+        height:auto;
+        min-height:100%;
+        overflow-x:hidden;
+        overflow-y:auto;
+    }
+
+    body {
+        height:auto;
+        min-height:100vh;
+        overflow:visible;
+    }
+
+    #container {
+        height:auto;
+        min-height:100rem;
+    }
+
+    #chicken {
+        top:calc(67% - 2.1875rem);
+        left:calc(50% + 5.46875rem);
+    }
+
+    .food-radio, .hobbies-radio, .photo-radio, .info-radio, .location-radio {
+        left:50%;
+    }
+
+    .food-radio { top:10%; }
+    .hobbies-radio { top:29%; }
+    .photo-radio { top:48%; }
+    .info-radio { top:67%; }
+    .location-radio { top:86%; }
+
+    .sticky-note {
+        width:min(17.1875rem, calc(100vw - 3rem));
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    body {
+        animation:none;
+        opacity:1;
+    }
+
+    .radio-option.is-expanding label {
+        transition-duration:0.01ms;
+    }
+}

@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Portfolio</title>
+    <link rel="stylesheet" type="text/css" href="mainPageStyles.css">
+</head>
+<body>
+    <div id="container">
+        <header id="header">
+            <h1>WANTED-#0379</h1>
+        </header>
+
+        <img src="Images/IMG_2680.jpeg" alt="Chicken Photo" id="chicken">
+        <img src="images/map.jpg" alt="Map" id="map">
+
+        <svg class="note-connections" aria-hidden="true">
+            <path data-from="location" data-to="photo"></path>
+            <path data-from="info" data-to="hobbies"></path>
+            <path data-from="info" data-to="food"></path>
+            <path data-from="hobbies" data-to="food"></path>
+            <path data-from="photo" data-to="info"></path>
+            <path data-from="location" data-to="food"></path>
+        </svg>
+
+        <div class="food-radio radio-option">
+            <input type="radio" id="food" name="choice" value="food" aria-label="Food">
+            <div class="sticky-note"><strong class="sticky-note-heading">Food</strong><br>Collection of the subject's favourite foods</div>
+            <label for="food" class="food-label" aria-hidden="true"></label>
+        </div>
+
+        <div class="hobbies-radio radio-option">
+            <div class="sticky-note"><strong class="sticky-note-heading">Hobbies</strong><br>What the subject seems to do in her free time...</div>
+            <input type="radio" id="hobbies" name="choice" value="Hobbies" aria-label="Hobbies">
+            <label for="hobbies" class="hobbies-label" aria-hidden="true"></label>
+        </div>
+
+        <div class="photo-radio radio-option">
+            <div class="sticky-note"><strong class="sticky-note-heading">Known Confederates</strong><br>The subject's crime associates</div>
+            <input type="radio" id="photo" name="choice" value="knownConfederates" aria-label="Known Confederates">
+            <label for="photo" class="photo-label" aria-hidden="true"></label>
+        </div>
+
+        <div class="info-radio radio-option">
+            <div class="sticky-note"><strong class="sticky-note-heading">Information</strong><br>Not a lot of information has been noted or observed yet...</div>
+            <input type="radio" id="info" name="choice" value="info" aria-label="Information">
+            <label for="info" class="info-label" aria-hidden="true"></label>
+        </div>
+
+        <div class="location-radio radio-option">
+            <div class="sticky-note"><strong class="sticky-note-heading">Last Location</strong><br>Subject's last known location. Majority of the times seems to be a school known as 'Middleton'</div>
+            <input type="radio" id="location" name="choice" value="location" aria-label="Last Location">
+            <label for="location" class="location-label" aria-hidden="true"></label>
+        </div>
+    </div>
+
+    <script>
+        const destinations = {
+            food: {
+                url: "food.html", 
+                backgroundImage: "images/IMG_2680.jpeg" },
+            hobbies: {
+                url: "hobbies.html",
+                backgroundImage: "images/IMG_1924.jpeg"
+             },
+            photo: {
+                url: "knownConfederates.html",
+                backgroundImage: "images/IMG_2736.jpeg"
+            },
+            info: { 
+                url: "info.html",
+                backgroundImage: "images/IMG_2769.jpeg"
+            },
+            location: { 
+                url: "location.html",
+                backgroundImage: "images/IMG_3026.jpeg"
+            }
+        };
+        let transitionStarted = false;
+        const transitionDuration = window.matchMedia("(prefers-reduced-motion: reduce)").matches ? 0 : 1400;
+        const connectionSvg = document.querySelector(".note-connections");
+        const connectionPaths = Array.from(connectionSvg.querySelectorAll("path"));
+
+        function updateNoteConnections() {
+            connectionSvg.setAttribute("viewBox", `0 0 ${window.innerWidth} ${window.innerHeight}`);
+
+            connectionPaths.forEach(path => {
+                const fromLabel = document.getElementById(path.dataset.from)
+                    .closest(".radio-option")
+                    .querySelector("label");
+                const toLabel = document.getElementById(path.dataset.to)
+                    .closest(".radio-option")
+                    .querySelector("label");
+                const fromRect = fromLabel.getBoundingClientRect();
+                const toRect = toLabel.getBoundingClientRect();
+                const start = {
+                    x: fromRect.left + fromRect.width / 2,
+                    y: fromRect.top + fromRect.height / 2
+                };
+                const end = {
+                    x: toRect.left + toRect.width / 2,
+                    y: toRect.top + toRect.height / 2
+                };
+                const dx = end.x - start.x;
+                const dy = end.y - start.y;
+                const sag = Math.min(170, Math.max(70, Math.hypot(dx, dy) * 0.34));
+
+                path.setAttribute(
+                    "d",
+                    `M ${start.x} ${start.y} C ${start.x + dx * 0.33} ${start.y + dy * 0.33 + sag}, ${start.x + dx * 0.67} ${start.y + dy * 0.67 + sag}, ${end.x} ${end.y}`
+                );
+            });
+        }
+
+        updateNoteConnections();
+        window.addEventListener("resize", updateNoteConnections);
+        window.addEventListener("scroll", updateNoteConnections, { passive: true });
+        window.addEventListener("load", updateNoteConnections, { once: true });
+
+        function activateOption(input) {
+            if (transitionStarted) {
+                return;
+            }
+
+            transitionStarted = true;
+            const option = input.closest(".radio-option");
+            const label = option.querySelector("label");
+            const destination = destinations[input.id];
+
+            const startTransition = () => {
+                const labelBounds = label.getBoundingClientRect();
+                const originX = labelBounds.left + labelBounds.width / 2;
+                const originY = labelBounds.top + labelBounds.height / 2;
+                const coverRadius = Math.max(
+                    Math.hypot(originX, originY),
+                    Math.hypot(window.innerWidth - originX, originY),
+                    Math.hypot(originX, window.innerHeight - originY),
+                    Math.hypot(window.innerWidth - originX, window.innerHeight - originY)
+                );
+
+                if (destination.backgroundImage) {
+                    option.style.setProperty("--transition-image", `url("${destination.backgroundImage}")`);
+                }
+                option.style.setProperty("--expand-origin-x", `${originX}px`);
+                option.style.setProperty("--expand-origin-y", `${originY}px`);
+                option.style.setProperty("--cover-size", `${(coverRadius + 2) * 2}px`);
+                option.classList.add("is-expanding");
+                document.body.classList.add("page-transitioning");
+
+                window.setTimeout(() => {
+                    option.classList.add("is-expanded");
+                    window.setTimeout(() => {
+                        window.location.href = destination.url;
+                    }, transitionDuration);
+                }, 20);
+            };
+
+            if (destination.backgroundImage) {
+                const backgroundImage = new Image();
+                backgroundImage.src = destination.backgroundImage;
+                backgroundImage.decode().then(startTransition).catch(error => {
+                    console.error("Unable to decode the transition background image.", error);
+                    startTransition();
+                });
+            } else {
+                startTransition();
+            }
+        }
+
+        const optionInputs = document.querySelectorAll(".radio-option input[type='radio']");
+        optionInputs.forEach(input => {
+            input.addEventListener("click", () => activateOption(input));
+            input.addEventListener("change", () => activateOption(input));
+        });
+
+        document.querySelectorAll(".radio-option .sticky-note").forEach(note => {
+            note.addEventListener("click", () => {
+                note.closest(".radio-option").querySelector("input[type='radio']").click();
+            });
+        });
+    </script>
+</body>
+</html>

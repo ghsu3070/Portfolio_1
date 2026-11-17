@@ -1,0 +1,60 @@
+body {
+    min-height: 100vh;
+    margin: 0;
+    background-color: rgb(152, 148, 223);
+    background-image: url("images/IMG_2765.jpeg");
+    background-repeat: no-repeat;
+    background-size:cover;
+    background-attachment: fixed;
+}
+
+.home-link {
+    position: fixed;
+    top: 18px;
+    left: 22px;
+    z-index: 5;
+    padding: 10px 14px;
+    border: 1px solid #c5b88f;
+    background: #f2e8cf;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25);
+    color: #24231f;
+    font-family: Arial, sans-serif;
+    font-size: 0.9rem;
+    font-weight: 700;
+    text-decoration: none;
+}
+
+.home-link:hover,
+.home-link:focus-visible {
+    background: #fff8e6;
+    outline: 2px solid #24231f;
+    outline-offset: 2px;
+}
+
+.location-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+    padding: 20px;
+    box-sizing: border-box;
+}
+
+#clickMe{
+    display: flex;
+    flex-direction: row;
+    background-color:rgb(238, 219, 219);
+    color:#24231f;
+    text-decoration: none;
+    width:auto;
+    height:auto;
+    text-align: center;
+
+    
+}
+#clickMe:hover{
+    scale: 2;
+    color:blueviolet;
+    transition: scale 0.8s;
+}

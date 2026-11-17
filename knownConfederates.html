@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Known Confederates</title>
+    <link rel="stylesheet" type="text/css" href="knownConfederatesStyles.css">
+</head>
+<body>
+    <a class="home-link" href="mainPage.html">&lt;- Home</a>
+    <main class="case-layout">
+        <div class="file-spread">
+            <article class="case-file is-confidential">
+                <div class="file-tabs" role="tablist" aria-label="Case file pages">
+                    <button class="file-tab is-active" id="tab-cover" type="button" role="tab"
+                        aria-selected="true" aria-controls="page-cover" data-page="cover" data-index="0"
+                        data-file-title="This File Contains Confidential Information"
+                        data-file-kicker="RESTRICTED ACCESS"
+                        data-photo-label="Space reserved for a subject photograph">
+                        Confidential
+                    </button>
+                    <button class="file-tab" id="tab-name1" type="button" role="tab"
+                        aria-selected="false" aria-controls="page-name1" data-page="name1" data-index="1" tabindex="-1"
+                        data-file-title="Patrick Baker" data-file-kicker="FILE PAGE 02" data-photo-label="Photo space for Patrick Baker">
+                        Patrick Baker
+                    </button>
+                    <button class="file-tab" id="tab-name2" type="button" role="tab"
+                        aria-selected="false" aria-controls="page-name2" data-page="name2" data-index="2" tabindex="-1"
+                        data-file-title="Google/AI" data-file-kicker="FILE PAGE 03" data-photo-label="Photo space for Google/AI">
+                        Google/AI
+                    </button>
+                    <button class="file-tab" id="tab-name3" type="button" role="tab"
+                        aria-selected="false" aria-controls="page-name3" data-page="name3" data-index="3" tabindex="-1"
+                        data-file-title="Empty File" data-file-kicker="FILE PAGE 04" data-photo-label="Photo space for Empty File">
+                        Empty File
+                    </button>
+                </div>
+
+                <section class="file-cover" id="page-cover" role="tabpanel" aria-labelledby="tab-cover">
+                    <header class="file-header">
+                        <p class="file-kicker" id="file-kicker">RESTRICTED ACCESS</p>
+                        <h1 id="file-title">This File Contains Confidential Information</h1>
+                    </header>
+
+                    <div class="cover-content">
+                        <section class="record-details" aria-label="Case details">
+                            <div class="detail-line"><span>Criminal ID</span><span>text1</span></div>
+                            <div class="detail-line"><span>Species</span><span>text2</span></div>
+                            <div class="detail-line"><span>Date of birth</span><span>text3</span></div>
+                            <div class="detail-line"><span>Status</span><span>text4</span></div>
+                            <div class="detail-line"><span>Last Known Location</span><span>text5</span></div>
+                        </section>
+
+                        <div class="photo-frame cover-photo-frame" id="cover-photo" role="img" aria-label="Space reserved for a subject photograph">
+                            <span>Photo</span>
+                        </div>
+                    </div>
+                </section>
+            </article>
+
+            <section class="detail-pages" id="detail-pages" aria-live="polite" aria-label="Opened file page">
+                <p class="page-prompt">Select a tab to open a file page.</p>
+                <article class="detail-page" id="page-name1" role="tabpanel" aria-labelledby="tab-name1" hidden>
+                    <div class="detail-page-header">
+                        <div>
+                            <h2>Patrick Baker</h2>
+                            <p class="page-kicker">FILE PAGE 01</p>
+                            <p>Subject is currently detained for teaching Subject #0379 Computer Science & Programming, leading to a series of hacking incidents</p>
+                        </div>
+                    </div>
+                </article>
+
+                <article class="detail-page" id="page-name2" role="tabpanel" aria-labelledby="tab-name2" hidden>
+                    <div class="detail-page-header">
+                        <div>
+                            <h2>Google/AI</h2>
+                            <p class="page-kicker">FILE PAGE 02</p>
+                            <p>Helped greatly in the processing and creation of a computer virus, which then used it to destroy itself. As it is not a living entity, we are unsure whether it is still 'alive'. </p>
+                        </div>
+                    </div>
+                </article>
+
+                <article class="detail-page" id="page-name3" role="tabpanel" aria-labelledby="tab-name3" hidden>
+                    <div class="detail-page-header">
+                        <div>
+                            <h2>Name3</h2>
+                            <p class="page-kicker">FILE PAGE 03</p>
+                            <p>Something is missing here...</p>
+                        </div>
+                    </div>
+                </article>
+            </section>
+        </div>
+    </main>
+
+    <script>
+        const tabs = Array.from(document.querySelectorAll(".file-tab"));
+        const pages = Array.from(document.querySelectorAll(".detail-page"));
+        const detailPages = document.querySelector(".detail-pages");
+        const caseFile = document.querySelector(".case-file");
+        const fileTitle = document.querySelector("#file-title");
+        const fileKicker = document.querySelector("#file-kicker");
+        const coverPhoto = document.querySelector("#cover-photo");
+        const recordValues = Array.from(document.querySelectorAll(".record-details .detail-line span:last-child"));
+        const patrickRecordValues = [
+            "9182635",
+            "Human",
+            "unknown",
+            "Alive",
+            "Middleton Grange School"
+        ];
+        const googleRecordValues = [
+            "9999999",
+            "Machine",
+            "04/09/1998",
+            "Unknown",
+            "Earth"
+        ];
+        const emptyRecordValues = [
+            "No Data Available",
+            "No Data Available",
+            "No Data Available",
+            "No Data Available",
+            "No Data Available"
+        ];
+        let activeIndex = 0;
+        let activePage = null;
+        let transitionId = 0;
+
+        function selectTab(tab) {
+            const nextIndex = Number(tab.dataset.index);
+            if (nextIndex === activeIndex) {
+                return;
+            }
+
+            const previousIndex = activeIndex;
+            const previousPage = activePage;
+            const nextPage = pages.find(page => page.id === `page-${tab.dataset.page}`);
+            const movingForward = nextIndex > previousIndex;
+            const transition = ++transitionId;
+
+            tabs.forEach(item => {
+                const isSelected = item === tab;
+                item.classList.toggle("is-active", isSelected);
+                item.setAttribute("aria-selected", String(isSelected));
+                item.tabIndex = isSelected ? 0 : -1;
+            });
+            fileTitle.textContent = tab.dataset.fileTitle;
+            fileKicker.textContent = tab.dataset.fileKicker;
+            coverPhoto.setAttribute("aria-label", tab.dataset.photoLabel);
+            caseFile.classList.toggle("is-confidential", nextIndex === 0);
+            recordValues.forEach((value, index) => {
+                if (nextIndex === 1) {
+                    value.textContent = patrickRecordValues[index];
+                } else if (nextIndex === 2) {
+                    value.textContent = googleRecordValues[index];
+                } else {
+                    value.textContent = emptyRecordValues[index];
+                }
+            });
+
+            pages.forEach(page => {
+                page.classList.remove(
+                    "page-forward",
+                    "page-backward",
+                    "page-close-forward",
+                    "page-close-backward"
+                );
+                if (page !== previousPage && page !== nextPage) {
+                    page.hidden = true;
+                }
+            });
+
+            if (previousPage && previousPage !== nextPage) {
+                previousPage.style.zIndex = movingForward ? "1" : "2";
+                previousPage.classList.add(movingForward ? "page-close-forward" : "page-close-backward");
+            }
+
+            if (nextPage) {
+                nextPage.hidden = false;
+                nextPage.style.zIndex = movingForward ? "2" : "1";
+                detailPages.classList.add("has-open-page");
+                void nextPage.offsetWidth;
+                nextPage.classList.add(movingForward ? "page-forward" : "page-backward");
+            } else {
+                if (!previousPage) {
+                    detailPages.classList.remove("has-open-page");
+                }
+            }
+
+            activeIndex = nextIndex;
+            activePage = nextPage;
+
+            if (previousPage && previousPage !== nextPage) {
+                window.setTimeout(() => {
+                    if (transitionId !== transition) {
+                        return;
+                    }
+                    previousPage.hidden = true;
+                    previousPage.classList.remove("page-close-forward", "page-close-backward");
+                    if (!nextPage) {
+                        detailPages.classList.remove("has-open-page");
+                    }
+                }, 440);
+            }
+        }
+
+        tabs.forEach(tab => {
+            tab.addEventListener("click", () => selectTab(tab));
+            tab.addEventListener("keydown", event => {
+                let nextIndex = activeIndex;
+                if (event.key === "ArrowRight") {
+                    nextIndex = (activeIndex + 1) % tabs.length;
+                } else if (event.key === "ArrowLeft") {
+                    nextIndex = (activeIndex - 1 + tabs.length) % tabs.length;
+                } else if (event.key === "Home") {
+                    nextIndex = 0;
+                } else if (event.key === "End") {
+                    nextIndex = tabs.length - 1;
+                } else {
+                    return;
+                }
+
+                event.preventDefault();
+                tabs[nextIndex].focus();
+                selectTab(tabs[nextIndex]);
+            });
+        });
+    </script>
+</body>
+</html>
